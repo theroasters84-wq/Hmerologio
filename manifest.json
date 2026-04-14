@@ -1,6 +1,6 @@
 {
-  "name": "Ορθόδοξο Εορτολόγιο",
-  "short_name": "Εορτολόγιο",
+  "name": "Eutrophia",
+  "short_name": "Eutrophia",
   "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#ffffff",

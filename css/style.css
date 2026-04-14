@@ -95,6 +95,29 @@ body {
     color: #444;
 }
 
+/* Στυλ για το κουμπί εγκατάστασης (PWA) */
+.install-btn {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: linear-gradient(135deg, #3498db, #2980b9);
+    color: #ffffff;
+    border: none;
+    border-radius: 25px;
+    padding: 10px 20px;
+    font-size: 0.9em;
+    font-weight: bold;
+    box-shadow: 0 4px 15px rgba(52, 152, 219, 0.4);
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    z-index: 1000;
+}
+
+.install-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(52, 152, 219, 0.6);
+}
+
 /* Responsive Design για κινητές συσκευές */
 @media (max-width: 768px) {
     #calendar-grid {
@@ -106,5 +129,13 @@ body {
         width: 95%;
         max-height: 90vh;
         overflow-y: auto;
+    }
+
+    /* Προσαρμογή του κουμπιού εγκατάστασης σε μικρές οθόνες */
+    .install-btn {
+        top: 15px;
+        right: 15px;
+        padding: 8px 15px;
+        font-size: 0.85em;
     }
 }

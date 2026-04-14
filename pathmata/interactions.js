@@ -144,3 +144,45 @@ window.closeModal = function(modalId) {
         modal.style.display = 'none';
     }
 };
+
+// --- Λογική Εγκατάστασης PWA (Install Button) ---
+let deferredPrompt;
+
+window.addEventListener('beforeinstallprompt', (e) => {
+    // Αποτροπή της προεπιλεγμένης συμπεριφοράς (αυτόματη εμφάνιση banner)
+    e.preventDefault();
+    // Αποθήκευση του event για να το καλέσουμε όταν ο χρήστης πατήσει το κουμπί
+    deferredPrompt = e;
+    
+    const installBtn = document.getElementById('install-btn');
+    if (installBtn) {
+        // Εμφάνιση του κουμπιού εφόσον η συσκευή υποστηρίζει εγκατάσταση
+        installBtn.style.display = 'block';
+        
+        // Προσθήκη event listener για το κλικ στο κουμπί
+        installBtn.addEventListener('click', async () => {
+            // Κρύβουμε το κουμπί αμέσως μόλις πατηθεί
+            installBtn.style.display = 'none';
+            
+            // Εμφάνιση του διαλόγου εγκατάστασης της συσκευής/browser
+            deferredPrompt.prompt();
+            
+            // Αναμονή για την επιλογή του χρήστη (αποδοχή ή απόρριψη)
+            const { outcome } = await deferredPrompt.userChoice;
+            console.log(`Η επιλογή του χρήστη για εγκατάσταση ήταν: ${outcome}`);
+            
+            // Το event μπορεί να χρησιμοποιηθεί μόνο μία φορά, οπότε το καθαρίζουμε
+            deferredPrompt = null;
+        });
+    }
+});
+
+window.addEventListener('appinstalled', () => {
+    // Όταν η εφαρμογή εγκατασταθεί, βεβαιωνόμαστε ότι το κουμπί είναι κρυμμένο
+    const installBtn = document.getElementById('install-btn');
+    if (installBtn) {
+        installBtn.style.display = 'none';
+    }
+    console.log('Η εφαρμογή Eutrophia εγκαταστάθηκε επιτυχώς!');
+    deferredPrompt = null;
+});
