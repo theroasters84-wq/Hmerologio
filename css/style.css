@@ -42,7 +42,8 @@ body {
 
 /* Στυλ για τα Modals Συνταγών και Πληροφοριών Εορτών */
 #recipes-modal,
-#info-modal {
+#info-modal,
+#shopping_modal {
     display: none;
     position: fixed;
     top: 0;
@@ -57,7 +58,8 @@ body {
 
 /* Το εσωτερικό κουτί περιεχομένου των Modals */
 #recipes-modal > div,
-#info-modal > div {
+#info-modal > div,
+#shopping_modal > div {
     background: #ffffff;
     padding: 25px;
     border-radius: 12px;
@@ -118,6 +120,63 @@ body {
     box-shadow: 0 6px 20px rgba(52, 152, 219, 0.6);
 }
 
+/* Στυλ για το κουμπί Λίστας Αγορών και τα αποτελέσματα */
+#shopping-btn {
+    color: white;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+#shopping-btn:hover {
+    transform: translateY(-2px);
+    opacity: 0.8;
+}
+
+#shopping-list-results h3 {
+    color: #2c3e50;
+    font-size: 1.1em;
+    margin-top: 15px;
+    margin-bottom: 8px;
+    border-bottom: 2px solid #f0f8ff;
+    padding-bottom: 4px;
+}
+
+#shopping-list-results ul {
+    list-style-type: disc;
+    margin-top: 0;
+    margin-left: 20px;
+    padding-left: 0;
+    color: #444;
+}
+
+#shopping-list-results li {
+    margin-bottom: 6px;
+}
+
+/* Στυλ για τα Quick Select Buttons */
+.quick-select-btns {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    margin-bottom: 15px;
+}
+
+.quick-btn {
+    padding: 8px 12px;
+    background-color: #f0f8ff;
+    border: 1px solid #3498db;
+    color: #2c3e50;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.quick-btn:hover {
+    background-color: #3498db;
+    color: #ffffff;
+}
+
 /* Responsive Design για κινητές συσκευές */
 @media (max-width: 768px) {
     #calendar-grid {
@@ -125,7 +184,8 @@ body {
     }
 
     #recipes-modal > div,
-    #info-modal > div {
+    #info-modal > div,
+    #shopping_modal > div {
         width: 95%;
         max-height: 90vh;
         overflow-y: auto;

@@ -1,4 +1,5 @@
 let calendarData = [];
+let ingredientsData = {};
 
 // Ακούμε το event 'routeLoaded' (που καλείται από τον router στο index.html)
 document.addEventListener('routeLoaded', async () => {
@@ -36,6 +37,16 @@ async function loadAndRenderCalendar() {
     try {
         const response = await fetch('dedomena/calendar_data.json');
         calendarData = await response.json();
+        
+        // Φόρτωση δεδομένων υλικών για την Έξυπνη Λίστα Αγορών
+        try {
+            const ulikaRes = await fetch('dedomena/syntages_ulika.json');
+            if (ulikaRes.ok) {
+                ingredientsData = await ulikaRes.json();
+            }
+        } catch (e) {
+            console.error('Αποτυχία φόρτωσης υλικών:', e);
+        }
         
         const gridContainer = document.getElementById('calendar-grid');
         gridContainer.innerHTML = ''; // Καθαρισμός grid
@@ -114,7 +125,11 @@ window.openRecipesModal = function(index) {
     if (day.recipes && day.recipes.length > 0) {
         day.recipes.forEach(recipe => {
             const li = document.createElement('li');
-            li.textContent = recipe.name;
+            let content = recipe.name;
+            if (recipe.time) {
+                content += ` <span style="font-size: 0.9em; color: #555; margin-left: 8px;" title="Χρόνος προετοιμασίας">⏱️ ${recipe.time}</span>`;
+            }
+            li.innerHTML = content;
             listContainer.appendChild(li);
         });
     } else {
@@ -185,4 +200,116 @@ window.addEventListener('appinstalled', () => {
     }
     console.log('Η εφαρμογή Eutrophia εγκαταστάθηκε επιτυχώς!');
     deferredPrompt = null;
+});
+
+// --- Λογική Έξυπνης Λίστας Αγορών ---
+const generateListBtn = document.getElementById('generate-list-btn');
+if (generateListBtn) {
+    generateListBtn.addEventListener('click', () => {
+        const startDateStr = document.getElementById('shop-start-date')?.value;
+        const endDateStr = document.getElementById('shop-end-date')?.value;
+        const resultsContainer = document.getElementById('shopping-list-results');
+        resultsContainer.innerHTML = ''; // Καθαρισμός προηγούμενων αποτελεσμάτων
+
+        if (!startDateStr || !endDateStr) {
+            resultsContainer.innerHTML = '<p style="color: #c62828;">Παρακαλώ επιλέξτε ημερομηνία έναρξης και λήξης.</p>';
+            return;
+        }
+
+        if (startDateStr > endDateStr) {
+            resultsContainer.innerHTML = '<p style="color: #c62828;">Η ημερομηνία λήξης πρέπει να είναι μεταγενέστερη ή ίση της έναρξης.</p>';
+            return;
+        }
+
+        // Φιλτράρισμα ημερών στο επιλεγμένο διάστημα (inclusive)
+        const selectedDays = calendarData.filter(day => day.date >= startDateStr && day.date <= endDateStr);
+        
+        const ingredientCounts = {};
+        let recipesFound = false;
+        const unlistedRecipes = new Set();
+
+        // Σάρωση ημερών, άντληση και ομαδοποίηση υλικών
+        selectedDays.forEach(day => {
+            if (day.recipes && day.recipes.length > 0) {
+                day.recipes.forEach(recipe => {
+                    recipesFound = true;
+                    const ingredients = ingredientsData[recipe.name];
+                    if (ingredients && ingredients.length > 0) {
+                        ingredients.forEach(item => {
+                            const cleanItem = item.trim();
+                            ingredientCounts[cleanItem] = (ingredientCounts[cleanItem] || 0) + 1;
+                        });
+                    } else {
+                        unlistedRecipes.add(recipe.name);
+                    }
+                });
+            }
+        });
+
+        if (!recipesFound) {
+            resultsContainer.innerHTML = '<p>Δεν υπάρχουν προτάσεις συνταγών για το επιλεγμένο διάστημα.</p>';
+            return;
+        }
+
+        // Δημιουργία της τελικής ενοποιημένης λίστας
+        let htmlContent = '<ul>';
+        let hasIngredients = false;
+        
+        for (const [ingredient, count] of Object.entries(ingredientCounts)) {
+            hasIngredients = true;
+            if (count > 1) {
+                htmlContent += `<li>${ingredient} (για ${count} γεύματα)</li>`;
+            } else {
+                htmlContent += `<li>${ingredient}</li>`;
+            }
+        }
+        htmlContent += '</ul>';
+
+        if (unlistedRecipes.size > 0) {
+            htmlContent += '<div style="margin-top: 15px; padding-top: 10px; border-top: 1px dashed #ccc;">';
+            htmlContent += '<strong>Υλικά μη καταχωρημένα για τις συνταγές:</strong><ul>';
+            unlistedRecipes.forEach(recipe => {
+                htmlContent += `<li>${recipe}</li>`;
+            });
+            htmlContent += '</ul></div>';
+        }
+
+        if (!hasIngredients && unlistedRecipes.size === 0) {
+            htmlContent = '<p>Δεν βρέθηκαν υλικά.</p>';
+        }
+
+        // Εμφάνιση στην οθόνη
+        resultsContainer.innerHTML = htmlContent;
+    });
+}
+
+// --- Λογική Quick Select Buttons για Λίστα Αγορών ---
+const quickBtns = document.querySelectorAll('.quick-btn');
+quickBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+        const startDateInput = document.getElementById('shop-start-date');
+        const endDateInput = document.getElementById('shop-end-date');
+        
+        if (!startDateInput || !endDateInput) return;
+
+        let startDateStr = startDateInput.value;
+        let startDate;
+        
+        // Αν δεν έχει επιλεγεί ημερομηνία έναρξης, θέτουμε τη σημερινή
+        if (!startDateStr) {
+            startDate = new Date();
+            startDateInput.value = startDate.toISOString().split('T')[0];
+        } else {
+            startDate = new Date(startDateStr);
+        }
+
+        // Ανάγνωση του αριθμού ημερών από το data-days του κουμπιού
+        const daysToAdd = parseInt(btn.getAttribute('data-days'), 10);
+        
+        // Υπολογισμός ημερομηνίας λήξης (αφαιρούμε 1 μέρα για να είναι inclusive)
+        const endDate = new Date(startDate);
+        endDate.setDate(endDate.getDate() + daysToAdd - 1);
+        
+        endDateInput.value = endDate.toISOString().split('T')[0];
+    });
 });

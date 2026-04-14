@@ -1,4 +1,4 @@
-const CACHE_NAME = 'fasting-calendar-v3'; // Ενημερωμένη έκδοση cache για τη νέα PWA δομή
+const CACHE_NAME = 'fasting-calendar-v6'; // Ενημερωμένη έκδοση cache για τα Quick Select κουμπιά
 const urlsToCache = [
     './',
     './index.html',

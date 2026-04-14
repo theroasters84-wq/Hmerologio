@@ -14,12 +14,47 @@
 <body>
     <header class="app-header">
         <h1>Ορθόδοξο Εορτολόγιο</h1>
+        <button id="shopping-btn" style="background: none; border: none; font-size: 1.2em; cursor: pointer; margin-right: 15px;" onclick="document.getElementById('shopping_modal').style.display = 'flex';">🛒 Λίστα Αγορών</button>
         <button id="install-btn" class="install-btn" style="display: none;">📥 Λήψη App</button>
     </header>
 
     <main id="app-content">
         <!-- Modular HTML views will be injected here -->
     </main>
+
+    <!-- Modal Έξυπνης Λίστας Αγορών -->
+    <div id="shopping_modal" style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: rgba(0, 0, 0, 0.7); z-index: 9999; align-items: center; justify-content: center;" onclick="if(event.target === this) closeModal('shopping_modal')">
+        <div style="background: #ffffff; padding: 25px; border-radius: 12px; width: 90%; max-width: 500px; max-height: 80vh; overflow-y: auto; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);" onclick="event.stopPropagation()">
+            <button class="close-btn" onclick="closeModal('shopping_modal')" aria-label="Κλείσιμο" style="float: right; border: none; background: none; font-size: 1.5em; cursor: pointer;">&times;</button>
+            <h2 style="margin-top: 0;">Λίστα Αγορών</h2>
+            
+            <div class="quick-select-btns" style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 15px; justify-content: center;">
+                <button type="button" class="quick-btn" data-days="1" style="padding: 8px 12px; background: #f0f8ff; border: 1px solid #3498db; color: #2c3e50; border-radius: 20px; cursor: pointer; font-weight: bold;">1 Ημέρα</button>
+                <button type="button" class="quick-btn" data-days="2" style="padding: 8px 12px; background: #f0f8ff; border: 1px solid #3498db; color: #2c3e50; border-radius: 20px; cursor: pointer; font-weight: bold;">2 Ημέρες</button>
+                <button type="button" class="quick-btn" data-days="7" style="padding: 8px 12px; background: #f0f8ff; border: 1px solid #3498db; color: #2c3e50; border-radius: 20px; cursor: pointer; font-weight: bold;">1 Εβδομάδα</button>
+                <button type="button" class="quick-btn" data-days="30" style="padding: 8px 12px; background: #f0f8ff; border: 1px solid #3498db; color: #2c3e50; border-radius: 20px; cursor: pointer; font-weight: bold;">1 Μήνας</button>
+            </div>
+
+            <div style="margin-top: 15px; display: flex; flex-direction: column; gap: 15px;">
+                <div style="display: flex; align-items: center; justify-content: space-between;">
+                    <label for="shop-start-date" style="font-weight: bold;">Από:</label>
+                    <input type="date" id="shop-start-date" style="padding: 8px; border-radius: 5px; border: 1px solid #ccc; font-size: 1em; width: 75%;">
+                </div>
+                <div style="display: flex; align-items: center; justify-content: space-between;">
+                    <label for="shop-end-date" style="font-weight: bold;">Έως:</label>
+                    <input type="date" id="shop-end-date" style="padding: 8px; border-radius: 5px; border: 1px solid #ccc; font-size: 1em; width: 75%;">
+                </div>
+            </div>
+            
+            <button id="generate-list-btn" style="margin-top: 20px; padding: 12px; background-color: #2c3e50; color: white; border: none; border-radius: 8px; cursor: pointer; width: 100%; font-size: 1em; font-weight: bold;">
+                Δημιουργία Λίστας
+            </button>
+            
+            <div id="shopping-list-results" style="margin-top: 20px; line-height: 1.6; font-size: 0.95em; border-top: 1px solid #eee; padding-top: 15px;">
+                <!-- Εδώ θα εμφανίζονται τα υλικά -->
+            </div>
+        </div>
+    </div>
 
     <script>
         async function loadRoute(route) {
