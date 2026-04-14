@@ -1,0 +1,96 @@
+/* Basic styles to resolve the missing CSS error */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+#calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 15px;
+    padding: 15px;
+}
+
+/* Στυλ για τις κάρτες των ημερών */
+.day-card {
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 15px;
+    background-color: #ffffff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.day-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.fasting-label {
+    margin-top: auto; /* Σπρώχνει το label στο κάτω μέρος της κάρτας */
+    padding: 8px;
+    background-color: #f5f5f5;
+    border-radius: 6px;
+    text-align: center;
+    font-size: 0.85em;
+    font-weight: bold;
+}
+
+/* Στυλ για τα Modals Συνταγών και Πληροφοριών Εορτών */
+#recipes-modal,
+#info-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 9999;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Το εσωτερικό κουτί περιεχομένου των Modals */
+#recipes-modal > div,
+#info-modal > div {
+    background: #ffffff;
+    padding: 25px;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 500px;
+    max-height: 80vh;
+    overflow-y: auto;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+/* Στυλ για τον τίτλο του μήνα στο grid */
+.month-header {
+    grid-column: 1 / -1; /* Εξασφαλίζει ότι πιάνει όλες τις στήλες */
+    background-color: #2c3e50;
+    color: white;
+    padding: 12px;
+    text-align: center;
+    border-radius: 8px;
+    font-size: 1.3em;
+    margin-top: 10px;
+}
+
+/* Στυλ για την επισήμανση της σημερινής ημέρας */
+.day-card.today-highlight {
+    border: 2px solid #3498db;
+    background-color: #f0f8ff;
+    box-shadow: 0 0 15px rgba(52, 152, 219, 0.4);
+}
+
+/* Στυλ για την περιγραφή της εορτής στο Info Modal */
+#feast-description {
+    font-size: 0.95em;
+    line-height: 1.6;
+    margin-top: 15px;
+    color: #444;
+}

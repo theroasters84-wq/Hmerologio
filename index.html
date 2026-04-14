@@ -1,0 +1,64 @@
+﻿<!DOCTYPE html>
+<html lang="el">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ορθόδοξο Εορτολόγιο & Νηστείες</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" href="data:,">
+    <meta name="theme-color" content="#2c3e50">
+</head>
+
+<body>
+    <header class="app-header">
+        <h1>Ορθόδοξο Εορτολόγιο</h1>
+    </header>
+
+    <main id="app-content">
+        <!-- Modular HTML views will be injected here -->
+    </main>
+
+    <script>
+        async function loadRoute(route) {
+            try {
+                const response = await fetch(route);
+                const html = await response.text();
+                document.getElementById('app-content').innerHTML = html;
+
+                document.dispatchEvent(new Event('routeLoaded'));
+            } catch (error) {
+                console.error("Error loading route:", error);
+                document.getElementById('app-content').innerHTML = '<p>Σφάλμα φόρτωσης.</p>';
+                document.getElementById('app-content').innerHTML = `
+                    <div style="background-color: #ffebee; color: #c62828; padding: 20px; border-radius: 8px; border: 1px solid #ef9a9a; margin-top: 20px;">
+                        <h3 style="margin-bottom: 10px;">⚠️ Προσοχή: Λείπουν οι φάκελοι!</h3>
+                        <p>Το <b>index.html</b> λειτουργεί, αλλά δεν βρίσκει τον φάκελο <strong>kentriki_selida</strong>.</p>
+                        <br>
+                        <p>Δημιούργησε τον φάκελο στην αριστερή μπάρα του VS Code και βάλε μέσα το <b>calendar.html</b>.</p>
+                    </div>`;
+            }
+        }
+        window.onload = () => loadRoute('kentriki_selida/calendar.html');
+    </script>
+    <script src="pathmata/interactions.js"></script>
+    <script>
+        // Βίαιη διαγραφή του Service Worker και της Cache για επίλυση των 404
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.getRegistrations().then(function (registrations) {
+                let hasSW = false;
+                for (let registration of registrations) {
+                    registration.unregister();
+                    hasSW = true;
+                }
+                if (hasSW) console.log("Το παλιό Service Worker διαγράφηκε!");
+            });
+            caches.keys().then(keys => {
+                keys.forEach(key => caches.delete(key));
+            });
+        }
+    </script>
+</body>
+
+</html>

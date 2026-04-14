@@ -1,0 +1,10 @@
+<div class="modal-backdrop" id="recipes-modal" onclick="closeModal('recipes-modal')">
+    <div class="modal-content" onclick="event.stopPropagation()">
+        <button class="close-btn" onclick="closeModal('recipes-modal')" aria-label="Κλείσιμο">&times;</button>
+        <h2>Προτάσεις Φαγητών</h2>
+        <p class="fasting-status-text" id="recipe-fasting-status"></p>
+        <ul class="recipe-list" id="recipe-list-container">
+            <!-- Οι συνταγές θα φορτώνονται εδώ δυναμικά -->
+        </ul>
+    </div>
+</div>
