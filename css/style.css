@@ -94,3 +94,17 @@ body {
     margin-top: 15px;
     color: #444;
 }
+
+/* Responsive Design για κινητές συσκευές */
+@media (max-width: 768px) {
+    #calendar-grid {
+        grid-template-columns: 1fr; /* Στοίχιση καρτών σε 1 στήλη */
+    }
+
+    #recipes-modal > div,
+    #info-modal > div {
+        width: 95%;
+        max-height: 90vh;
+        overflow-y: auto;
+    }
+}

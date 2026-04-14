@@ -44,18 +44,13 @@
     </script>
     <script src="pathmata/interactions.js"></script>
     <script>
-        // Βίαιη διαγραφή του Service Worker και της Cache για επίλυση των 404
         if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.getRegistrations().then(function (registrations) {
-                let hasSW = false;
-                for (let registration of registrations) {
-                    registration.unregister();
-                    hasSW = true;
-                }
-                if (hasSW) console.log("Το παλιό Service Worker διαγράφηκε!");
-            });
-            caches.keys().then(keys => {
-                keys.forEach(key => caches.delete(key));
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('service-worker.js').then(registration => {
+                    console.log('ServiceWorker καταχωρήθηκε επιτυχώς με scope: ', registration.scope);
+                }).catch(error => {
+                    console.error('Η καταχώρηση του ServiceWorker απέτυχε: ', error);
+                });
             });
         }
     </script>

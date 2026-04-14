@@ -1,4 +1,4 @@
-const CACHE_NAME = 'fasting-calendar-v2'; // Αλλάζουμε όνομα για να διαγραφεί η παλιά cache
+const CACHE_NAME = 'fasting-calendar-v3'; // Ενημερωμένη έκδοση cache για τη νέα PWA δομή
 const urlsToCache = [
     './',
     './index.html',
