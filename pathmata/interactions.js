@@ -198,7 +198,7 @@ window.addEventListener('appinstalled', () => {
     if (installBtn) {
         installBtn.style.display = 'none';
     }
-    console.log('Η εφαρμογή Eutrophia εγκαταστάθηκε επιτυχώς!');
+    console.log('Η εφαρμογή Ευ Ζην & Παράδοση εγκαταστάθηκε επιτυχώς!');
     deferredPrompt = null;
 });
 
