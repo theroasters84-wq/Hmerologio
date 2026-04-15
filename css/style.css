@@ -5,6 +5,23 @@ body {
     padding: 0;
 }
 
+/* Στυλ για το Header της εφαρμογής */
+.app-header {
+    background-color: #2c3e50;
+    color: white;
+    padding: 15px 20px;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    position: sticky; /* Κάνει το header να 'κολλάει' πάνω καθώς ο χρήστης σκρολάρει */
+    top: 0;
+    z-index: 900; /* Κάτω από τα modals και τα floating buttons */
+}
+
+.app-header h1 {
+    margin: 0;
+    font-size: 1.4em;
+}
+
 #calendar-grid {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
@@ -122,13 +139,29 @@ body {
 
 /* Στυλ για το κουμπί Λίστας Αγορών και τα αποτελέσματα */
 #shopping-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 60px;
+    height: 60px;
+    background-color: #2c3e50;
     color: white;
-    transition: transform 0.2s ease, opacity 0.2s ease;
+    border: none;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5em;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    z-index: 1000;
+    transition: transform 0.2s ease, background-color 0.2s ease;
+    transform: translateZ(0); /* Εξαναγκάζει την απόδοση σε ξεχωριστό layer για να διορθωθούν πιθανά rendering bugs σε πολύπλοκες σελίδες */
 }
 
 #shopping-btn:hover {
-    transform: translateY(-2px);
-    opacity: 0.8;
+    transform: scale(1.05);
+    background-color: #34495e;
 }
 
 #shopping-list-results h3 {
@@ -189,6 +222,14 @@ body {
         width: 95%;
         max-height: 90vh;
         overflow-y: auto;
+    }
+
+    #shopping-btn {
+        width: 50px;
+        height: 50px;
+        font-size: 1.3em;
+        bottom: 20px;
+        right: 20px;
     }
 
     /* Προσαρμογή του κουμπιού εγκατάστασης σε μικρές οθόνες */

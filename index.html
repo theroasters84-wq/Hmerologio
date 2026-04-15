@@ -14,8 +14,6 @@
 <body>
     <header class="app-header">
         <h1>Ορθόδοξο Εορτολόγιο</h1>
-        <button id="shopping-btn" style="background: none; border: none; font-size: 1.2em; cursor: pointer; margin-right: 15px;" onclick="document.getElementById('shopping_modal').style.display = 'flex';">🛒 Λίστα Αγορών</button>
-        <button id="install-btn" class="install-btn" style="display: none;">📥 Λήψη App</button>
     </header>
 
     <main id="app-content">
@@ -90,6 +88,10 @@
             });
         }
     </script>
+
+    <!-- Floating Action Buttons -->
+    <button id="shopping-btn" onclick="document.getElementById('shopping_modal').style.display = 'flex';" title="Λίστα Αγορών">🛒</button>
+    <button id="install-btn" class="install-btn" style="display: none;">📥 Λήψη App</button>
 </body>
 
 </html>
