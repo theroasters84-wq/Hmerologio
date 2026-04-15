@@ -1,4 +1,4 @@
-const CACHE_NAME = 'fasting-calendar-v7'; // Ενημερωμένη έκδοση cache για το νέο όνομα της εφαρμογής
+const CACHE_NAME = 'fasting-calendar-v8'; // Ενημερωμένη έκδοση cache για την προσθήκη του Google Analytics
 const urlsToCache = [
     './',
     './index.html',
